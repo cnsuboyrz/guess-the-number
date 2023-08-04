@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tahmin Oyunu</title>
+        <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    input {
+      width: 100px;
+    }
+    hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  </style>
+    </head>
+    <body>
+        <h1>Tahmin Oyunu</h1>
+        <label for="guess">Tahmininizi girin:</label>
+        <input type="number" id="guess" />
+        <button onclick="checkGuess()">Tahmin yap</button>
+        <hr />
+        <label id="resultLabel"></label>
+
+        <script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    let guessesLeft = 7;
+
+    function checkGuess() {
+      const guessInput = document.getElementById("guess");
+      const guess = parseInt(guessInput.value);
+
+      if (isNaN(guess)) {
+        alert("Geçerli bir sayı girin.");
+        return;
+      }
+
+      guessesLeft--;
+      updateGuessLabel(guessesLeft);
+
+      if (guess === randomNumber) {
+        displayResult(`Tebrikler! Sayı ${8 - guessesLeft} denemede bulundu.`);
+        disableInputAndButton();
+      } else if (guessesLeft === 0) {
+        displayResult("Deneme hakkınız kalmadı. Kaybettiniz.");
+        disableInputAndButton();
+      } else if (guess > randomNumber) {
+        displayResult("Daha küçük bir sayı girin.");
+      } else {
+        displayResult("Daha büyük bir sayı girin.");
+      }
+    }
+
+    function displayResult(message) {
+      const resultLabel = document.getElementById("resultLabel");
+      resultLabel.innerText = message;
+    }
+
+    function disableInputAndButton() {
+      const guessInput = document.getElementById("guess");
+      const guessButton = document.querySelector("button");
+      guessInput.disabled = true;
+      guessButton.disabled = true;
+    }
+
+    function updateGuessLabel(guessesLeft) {
+      const guessLabel = document.querySelector("label[for=guess]");
+      guessLabel.innerText = `${8 - guessesLeft}. tahmini girin:`;
+    }
+  </script>
+    </body>
+</html>
